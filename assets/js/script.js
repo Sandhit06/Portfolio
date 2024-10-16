@@ -1,4 +1,5 @@
 'use strict';
+
 // element toggle function
 const elementToggleFunc = function (elem) { elem.classList.toggle("active"); }
 
@@ -45,7 +46,6 @@ for (let i = 0; i < testimonialsItem.length; i++) {
 // add click event to modal close button
 modalCloseBtn.addEventListener("click", testimonialsModalFunc);
 overlay.addEventListener("click", testimonialsModalFunc);
-
 
 
 // custom select variables
@@ -107,11 +107,14 @@ for (let i = 0; i < filterBtn.length; i++) {
 }
 
 
-
 // contact form variables
 const form = document.querySelector("[data-form]");
 const formInputs = document.querySelectorAll("[data-form-input]");
 const formBtn = document.querySelector("[data-form-btn]");
+//const formMessage = document.getElementById("form-message");
+
+
+// Add an event listener for form submission
 
 // add event to all form input field
 for (let i = 0; i < formInputs.length; i++) {
@@ -127,26 +130,51 @@ for (let i = 0; i < formInputs.length; i++) {
   });
 }
 
-
-
 // page navigation variables
 const navigationLinks = document.querySelectorAll("[data-nav-link]");
 const pages = document.querySelectorAll("[data-page]");
 
 // add event to all nav link
-for (let i = 0; i < navigationLinks.length; i++) {
-  navigationLinks[i].addEventListener("click", function () {
+navigationLinks.forEach(link => {
+  link.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent the default link behavior
 
-    for (let i = 0; i < pages.length; i++) {
-      if (this.innerHTML.toLowerCase() === pages[i].dataset.page) {
-        pages[i].classList.add("active");
-        navigationLinks[i].classList.add("active");
-        window.scrollTo(0, 0);
+    const targetPage = this.innerHTML.toLowerCase(); // Get the target page name
+
+    // Loop through pages and activate the matching one
+    pages.forEach(page => {
+      if (page.dataset.page === targetPage) {
+        page.classList.add("active");
+        window.scrollTo({
+          top: page.offsetTop, // Scroll to the top of the section
+          behavior: 'smooth'   // Smooth scrolling
+        });
       } else {
-        pages[i].classList.remove("active");
-        navigationLinks[i].classList.remove("active");
+        page.classList.remove("active");
       }
-    }
+    });
 
+    // Update the active class on navigation links
+    navigationLinks.forEach(link => link.classList.remove("active"));
+    this.classList.add("active");
   });
+});
+
+function sendMail() {
+  var parms = {
+    from_name: document.getElementById("fullname").value,
+    email_id: document.getElementById("email").value,
+    message: document.getElementById("message").value,
+  };
+
+  emailjs.send("service_b0wl173", "template_dk2yzc6", parms)
+    .then(function(res) {
+      alert("Success! " + res.status);
+      document.getElementById("form-message").style.display = 'block';
+      document.getElementById("form-message").innerText = "Message sent successfully!";
+      document.getElementById("form-message").style.color = 'white';
+    })
+    .catch(function(err) {
+      alert("Failed to send message: " + err);
+    });
 }

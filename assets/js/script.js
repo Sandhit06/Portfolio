@@ -167,14 +167,30 @@ function sendMail() {
     message: document.getElementById("message").value,
   };
 
+  // Reference to the Send button
+  var sendButton = document.getElementById("sendButton");
+
   emailjs.send("service_b0wl173", "template_dk2yzc6", parms)
     .then(function(res) {
-      alert("Success! " + res.status);
+      // Change button text to "Sent"
+      sendButton.innerText = "Sent";
+      sendButton.disabled = true; // Optionally disable the button to prevent resending
+
+      // Display success message
       document.getElementById("form-message").style.display = 'block';
       document.getElementById("form-message").innerText = "Message sent successfully!";
       document.getElementById("form-message").style.color = 'white';
+
+      // Revert the button back to "Send" after 2 seconds
+      setTimeout(function() {
+        sendButton.innerText = "Send";
+        sendButton.disabled = false; // Enable the button again
+      }, 2000); // 2 seconds delay
     })
     .catch(function(err) {
-      alert("Failed to send message: " + err);
+      // Handle failure case (optional)
+      document.getElementById("form-message").style.display = 'block';
+      document.getElementById("form-message").innerText = "Failed to send message. Please try again.";
+      document.getElementById("form-message").style.color = 'red';
     });
 }

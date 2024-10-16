@@ -183,9 +183,6 @@
       </nav>
 
 
-
-
-
       <!--
         - #ABOUT
       -->
@@ -823,23 +820,21 @@
               width="400" height="300" loading="lazy"></iframe>
           </figure>
         </section>
-
         <section class="contact-form">
 
           <h3 class="h3 form-title">Contact Form</h3>
-
+        
           <form id="contactForm" data-form onsubmit="event.preventDefault(); sendMail();">
             <div class="input-wrapper">
               <input type="text" id="fullname" class="form-input" placeholder="Full name" required data-form-input>
               <input type="email" id="email" class="form-input" placeholder="Email address" required data-form-input>
             </div>
-          
+        
             <textarea id="message" class="form-input" placeholder="Your Message" required data-form-input></textarea>
-          
-            <button class="form-btn" type="submit" data-form-btn onclick="sendMail()">Send</button>
+        
+            <button class="form-btn" type="submit" data-form-btn id="sendButton">Send</button>
           </form>
-
-
+        
           <div id="form-message" style="display: none;"></div> <!-- Success/Error message will be displayed here -->
         </section>
 
